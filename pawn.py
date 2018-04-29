@@ -28,4 +28,4 @@ class Pawn(object):
             if y1-y0 !=1 or x0 != x1:
                 raise InvalidMove()
         self.__pos = value
-    # comm
+
