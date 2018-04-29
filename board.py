@@ -25,7 +25,7 @@ class Board(object):
         alpha = 'abcdefghijklmnopqrstuvwxyz'[:self.width]
         print('     '+(' '*5).join(alpha) )
         #raise NotImplementedError('Board.show')
-        print(' \u250c'+'\u2500'*6*self.width+'\u2510')
+        print('  \u250c'+'\u2500'*6*self.width+'\u2510')
         for n in range(self.height,0,-1):
             line = ('\u2588'*6 + '\u2591'*6 ) * self.width
             if n % 2 > 0:
@@ -36,7 +36,7 @@ class Board(object):
             print(line1)
             print(line2)
             print(line1)
-        print('  \u2501'+'\u2500'*6*self.width + '\u2518')
+        print('  \u2514'+'\u2500'*6*self.width + '\u2518')
         print('     '+(' '*5).join(alpha))
 
 if __name__ == '__main__':
