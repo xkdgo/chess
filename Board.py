@@ -43,11 +43,15 @@ class Board(object):
 
     def add(self, fig):
         if fig in self:
+            # fig in self call method __contains__
             return
         if not (fig.pos in self):
+            # fig.pos in self call method __contains__
             raise InvalidPosition(fig.pos)
         x, y = fig.pos
+
         if self[x, y] is not None:
+            # self[x, y] call method __getitem__
             raise PositionOccupied()
         self.__figures.append(fig)
 
@@ -55,6 +59,7 @@ class Board(object):
         for i in range(0, self.width):
             f = fg.Pawn('w', (i, 1))
             self.add(f)
+            # self.add call method add
             f = fg.Pawn('b', (i, self.height - 2))
             self.add(f)
         last = self.height - 1
@@ -78,6 +83,8 @@ class Board(object):
 
         self.add(fg.Queen('b', (3, last)))
         self.add(fg.King('b', (4, last)))
+
+
 
     @property
     def height(self):
@@ -106,7 +113,9 @@ class Board(object):
             # print figure on the board
             for k in range(0, self.width):
                 f = self[k, n - 1]
+                # self[k, n - 1] call method __getitem__
                 if f is None:
+                    # if __getitem__ returned None check next position k
                     continue
                 b = k * 6 + 2
                 c = b + len(f.symbol)
