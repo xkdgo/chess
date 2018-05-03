@@ -10,6 +10,8 @@ class Rook(Figure):
         x1, y1 = new_pos
         if x0 != x1 and y0 != y1:
             raise InvalidMove
+        else:
+            pass
 
     @property
     def symbol(self):

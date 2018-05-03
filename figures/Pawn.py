@@ -13,9 +13,10 @@ class Pawn(Figure):
         if self.color == 'b':
             if y0 - y1 != 1 or x0 != x1:
                 raise InvalidMove()
-        else:
-            if y1 - y0 != 1 or x0 != x1:
+        elif y1 - y0 != 1 or x0 != x1:
                 raise InvalidMove()
+        else:
+            pass
 
     @property
     def symbol(self):
