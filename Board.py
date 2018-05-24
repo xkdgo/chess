@@ -2,7 +2,7 @@
 
 import figures as fg
 from figures import Figure
-from exceptions import InvalidPosition, PositionOccupied
+from exceptions import InvalidPosition, PositionOccupied, InvalidMove
 
 
 class Board(object):
@@ -126,6 +126,15 @@ class Board(object):
             print(line1)
         print('  \u2514' + '\u2500' * 6 * self.width + '\u2518')
         print('     ' + (' ' * 5).join(alpha))
+
+    def move(self, fig_sym, start, finish, takes=False):
+        fig = self[start]
+        if fig is None:
+            raise InvalidMove('Field is empty')
+        if fig.symbol[0] != fig_sym:
+            raise InvalidMove('Invalid figure')
+        #  Проверить, еще что-то
+        fig.pos = finish
 
 
 if __name__ == '__main__':
