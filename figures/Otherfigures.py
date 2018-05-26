@@ -2,6 +2,7 @@
 
 from .Figure import Figure
 
+
 class King(Figure):
 
     def assert_legal_move(self, new_pos):
@@ -21,6 +22,7 @@ class Queen(Figure):
     def symbol(self):
         return 'Q' + self.color
 
+
 class Knight(Figure):
 
     def assert_legal_move(self, new_pos):
@@ -29,6 +31,7 @@ class Knight(Figure):
     @property
     def symbol(self):
         return 'N' + self.color
+
 
 class Bishop(Figure):
 

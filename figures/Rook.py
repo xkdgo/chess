@@ -15,4 +15,4 @@ class Rook(Figure):
 
     @property
     def symbol(self):
-         return 'R' + self.color
+        return 'R' + self.color

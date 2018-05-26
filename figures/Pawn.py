@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from exceptions import InvalidMove
 from .Figure import Figure
 
@@ -21,4 +22,3 @@ class Pawn(Figure):
     @property
     def symbol(self):
         return 'p' + self.color
-

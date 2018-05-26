@@ -3,6 +3,7 @@ from weakref import ref
 # импортируем модуль слабой ссылки
 from exceptions import InvalidPosition, PositionOccupied
 
+
 class Figure(object):
     def __init__(self, color, pos, board=None):
         self.__color = color

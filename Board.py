@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+
 import figures as fg
 from figures import Figure
 from exceptions import InvalidPosition, PositionOccupied, InvalidMove
 from helpers import str_to_move
+
 
 class Board(object):
     def __init__(self, height=8, width=None):
@@ -17,26 +19,26 @@ class Board(object):
     def __contains__(self, val):
         if isinstance(val, Figure):
             # return any(( x is val for x in self.__figures ))
-            for x in self.__figures:
-                if x is val:
+            for fig in self.__figures:
+                if fig is val:
                     return True
             else:
                 return False
         else:
-            x, y = val
-            if x < 0 or x >= self.width:
+            k, j = val
+            if k < 0 or k >= self.width:
                 return False
-            if y < 0 or y >= self.height:
+            if j < 0 or j >= self.height:
                 return False
             return True
 
     def __getitem__(self, pos):
-        x, y = pos
-        if isinstance(x, slice) or isinstance(y, slice):
+        k, j = pos
+        if isinstance(k, slice) or isinstance(j, slice):
             raise NotImplementedError('Slice indexing not implemented')
         # TODO if position right
         for f in self.__figures:
-            if f.pos == (x, y):
+            if f.pos == (k, j):
                 return f
         else:
             return None
@@ -49,10 +51,10 @@ class Board(object):
         if not (fig.pos in self):
             # fig.pos in self call method __contains__
             raise InvalidPosition(fig.pos)
-        x, y = fig.pos
+        k, j = fig.pos
 
-        if self[x, y] is not None:
-            # self[x, y] call method __getitem__
+        if self[k, j] is not None:
+            # self[k, j] call method __getitem__
             raise PositionOccupied()
         self.__figures.append(fig)
         fig.board = self
@@ -62,11 +64,11 @@ class Board(object):
     def take_from_pos(self, pos):
         # снимает фигуру с доски и возвращает ссылку на эту фигуру
         # используется перебор списка по индексу
-        for k in range(0,len(self.__figures)):
+        for k in range(0, len(self.__figures)):
             if self.__figures[k].pos == pos:
-                x = self.__figures[k]
+                fig = self.__figures[k]
                 del self.__figures[k]
-                return x
+                return fig
         return None
 
     def initialize(self):
@@ -97,8 +99,6 @@ class Board(object):
 
         self.add(fg.Queen('b', (3, last)))
         self.add(fg.King('b', (4, last)))
-
-
 
     @property
     def height(self):
@@ -157,8 +157,11 @@ class Board(object):
         try:
             fig.pos = finish
         except PositionOccupied:
+            if not takes:
+                print('You need input x before take')
             self.take_from_pos(finish)
             fig.pos = finish
+
 
 if __name__ == '__main__':
     x = Board(8)
