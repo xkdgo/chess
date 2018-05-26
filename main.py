@@ -7,6 +7,5 @@ brd.initialize()
 
 while True:
     brd.show()
-    move_text = inpit(': ')
-    f, s, e, t = str_to_move(move_text)
-    brd.move(f, s, e, t)
+    move_text = input(': ')
+    brd.move(move_text)

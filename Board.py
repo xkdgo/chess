@@ -3,7 +3,7 @@
 import figures as fg
 from figures import Figure
 from exceptions import InvalidPosition, PositionOccupied, InvalidMove
-
+from helpers import str_to_move
 
 class Board(object):
     def __init__(self, height=8, width=None):
@@ -42,6 +42,7 @@ class Board(object):
             return None
 
     def add(self, fig):
+        # добавляет фигуру на доску
         if fig in self:
             # fig in self call method __contains__
             return
@@ -54,6 +55,19 @@ class Board(object):
             # self[x, y] call method __getitem__
             raise PositionOccupied()
         self.__figures.append(fig)
+        fig.board = self
+        # используется сеттер из Figure
+        # создает слабую ссылку на доску
+
+    def take_from_pos(self, pos):
+        # снимает фигуру с доски и возвращает ссылку на эту фигуру
+        # используется перебор списка по индексу
+        for k in range(0,len(self.__figures)):
+            if self.__figures[k].pos == pos:
+                x = self.__figures[k]
+                del self.__figures[k]
+                return x
+        return None
 
     def initialize(self):
         for i in range(0, self.width):
@@ -127,15 +141,24 @@ class Board(object):
         print('  \u2514' + '\u2500' * 6 * self.width + '\u2518')
         print('     ' + (' ' * 5).join(alpha))
 
-    def move(self, fig_sym, start, finish, takes=False):
+    def move(self, fig_sym, start=None, finish=None, takes=False):
+        # метод распаковывает строку введенную пользвателем
+        # и передвигает фигуру
+        # использует функцию str_to_move из helpers
+        if isinstance(fig_sym, str):
+            fig_sym, start, finish, takes = str_to_move(fig_sym)
         fig = self[start]
+        # call func __getitem__(self, start)
         if fig is None:
             raise InvalidMove('Field is empty')
         if fig.symbol[0] != fig_sym:
             raise InvalidMove('Invalid figure')
-        #  Проверить, еще что-то
-        fig.pos = finish
-
+        #  Проверить, еще что-то можно дописать проверки
+        try:
+            fig.pos = finish
+        except PositionOccupied:
+            self.take_from_pos(finish)
+            fig.pos = finish
 
 if __name__ == '__main__':
     x = Board(8)
