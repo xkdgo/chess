@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
+class ChessPlayError(Exception):
+    pass
 
-class InvalidMove(Exception):
+class InvalidMove(ChessPlayError):
     pass
 
 
-class InvalidPosition(Exception):
+class InvalidPosition(ChessPlayError):
     pass
 
 
-class PositionOccupied(Exception):
+class PositionOccupied(ChessPlayError):
     pass

@@ -45,9 +45,16 @@ class ChessClient(object):
 
     def request_board(self):
         # функция запрашивает доску с позицией фигур
-        with urlopen(self.url, data='getpos'.encode('utf-8')) as resp:
-            result = pickle.load(resp)
+        with urlopen(self.url, data='getpos'.encode('utf-8')) as brd_bytes:
+            result = pickle.load(brd_bytes)
+            # восстанавливаем доску при помощи pickle
+            # декодируем объект python
+        result.restore_for_pickle()
         return result
+
+    def move(self, text):
+        with urlopen(self.url, data=text.encode('utf-8')) as resp:
+            return resp.read(1024).decode('utf-8') == 'True'
 
 
 """
@@ -60,7 +67,25 @@ url = 'http://{}:{}'.format(host, port)
 
 client = ChessClient('localhost')
 client.handshake()
-print(client.color)
-print(client.turn)
+# print(client.color)
+# print(client.turn)
+# brd = client.request_board()
+# brd.show()
 # client.wait()
+# client.move('pe2-e3')
+# client.request_board().show()
+
+while True:
+    client.wait()
+    client.request_board().show()
+    while True:
+        move_text = input('{}: '.format(client.color))
+        if client.move(move_text):
+            break
+        print('Invalid move, try again')
+    client.request_board().show()
+
+
+
+
 

@@ -162,6 +162,27 @@ class Board(object):
             self.take_from_pos(finish)
             fig.pos = finish
 
+    def prepare_for_pickle(self):
+        # метод удаляет мягкие ссылки из доски
+        # и подготавливает доску к запаковыванию в байты
+        for fig in self.__figures:
+            del fig.board
+
+    def restore_for_pickle(self):
+        # метод восстанавливает мягкие ссылки
+        for fig in self.__figures:
+            fig.board = self
+
+    # следующие методы автоматически делают экземпляр
+    # менеджером контекста и его можно использовать с
+    # с функцией with
+    def __enter__(self):
+        self.prepare_for_pickle()
+        return self
+
+    def __exit__(self, exctype, excvalue, traceback):
+        self.restore_for_pickle()
+
 
 if __name__ == '__main__':
     x = Board(8)
