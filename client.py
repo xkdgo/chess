@@ -2,6 +2,8 @@
 
 from urllib.request import urlopen
 import time
+import pickle
+from Board import Board
 
 
 class ChessClient(object):
@@ -36,8 +38,16 @@ class ChessClient(object):
             return resp.read(1024).decode('utf-8')
 
     def wait(self):
+        # функция периодически проверяет чей ход и если чужой
+        # то пауза
         while self.turn != self.color:
             time.sleep(2.0)
+
+    def request_board(self):
+        # функция запрашивает доску с позицией фигур
+        with urlopen(self.url, data='getpos'.encode('utf-8')) as resp:
+            result = pickle.load(resp)
+        return result
 
 
 """
@@ -51,3 +61,6 @@ url = 'http://{}:{}'.format(host, port)
 client = ChessClient('localhost')
 client.handshake()
 print(client.color)
+print(client.turn)
+# client.wait()
+
